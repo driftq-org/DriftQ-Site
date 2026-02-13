@@ -12,7 +12,7 @@ description: Prevent duplicate side effects with consume-scope idempotency keys.
       DriftQ uses <strong>at-least-once</strong> delivery via redelivery — which is great for reliability, but risky for side effects.
     </p>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Goal:</strong> allow redelivery for reliability, while preventing <em>duplicate side effects</em>.
         That’s what idempotency is for.
@@ -40,7 +40,7 @@ description: Prevent duplicate side effects with consume-scope idempotency keys.
   <section className="space-y-5">
     <h2 className="m-0">Lifecycle: lease → ack</h2>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <ol className="m-0 space-y-3 pl-5">
         <li>
           Consumer calls <code>/v1/consume</code> with <code>owner</code> and gets a message.
@@ -60,7 +60,7 @@ description: Prevent duplicate side effects with consume-scope idempotency keys.
       </ol>
     </div>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Key idea:</strong> “leased” prevents two consumers from doing it at the same time,
         and “committed” prevents doing it again later.
@@ -83,7 +83,7 @@ description: Prevent duplicate side effects with consume-scope idempotency keys.
       <li>duplicated “tool calls” in agent workflows</li>
     </ul>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Bottom line:</strong> at-least-once delivery is non-negotiable for reliability.
         Idempotency is how you make it safe.

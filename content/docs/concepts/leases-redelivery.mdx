@@ -12,7 +12,7 @@ description: How DriftQ prevents stuck messages and safely re-delivers work.
       That “in-flight” state is protected by a <strong>lease</strong>.
     </p>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Goal:</strong> avoid stuck messages while still preventing two consumers from doing the same work.
       </p>
@@ -33,7 +33,7 @@ description: How DriftQ prevents stuck messages and safely re-delivers work.
       </li>
     </ul>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Practical effect:</strong> leases give you “at-most-one active worker” per message at a time.
       </p>
@@ -57,7 +57,7 @@ description: How DriftQ prevents stuck messages and safely re-delivers work.
       </li>
     </ol>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Rule of thumb:</strong> set <code>lease_ms</code> slightly longer than your normal processing time.
       </p>
@@ -79,7 +79,7 @@ description: How DriftQ prevents stuck messages and safely re-delivers work.
       <li><code>attempts</code> is incremented each time it’s re-delivered</li>
     </ul>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
         <strong>Why attempts matter:</strong> they power retry limits and DLQ routing (covered in “Retries &amp; DLQ”).
       </p>
