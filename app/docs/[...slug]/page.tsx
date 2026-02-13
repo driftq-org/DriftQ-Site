@@ -33,13 +33,13 @@ const DocPage = async ({ params }: { params: Params }) => {
     <DocsShell currentPath={currentPath}>
       {
         frontmatter?.title
-          ? <h1 className="text-3xl font-black tracking-tight text-zinc-950 dark:text-white sm:text-4xl">{frontmatter.title}</h1>
+          ? <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl">{frontmatter.title}</h1>
           : null
       }
 
       {
         frontmatter?.description
-          ? <p className="mt-3 text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{frontmatter.description}</p>
+          ? <p className="mt-3 text-base leading-relaxed text-white/70">{frontmatter.description}</p>
           : null
       }
 

@@ -3,21 +3,20 @@
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import Link from "next/link";
-import ThemeToggle from "@/components/theme-toggle";
 import { Menu, X } from "lucide-react";
 import { site } from "@/lib/site";
 import { useState } from "react";
 
 const linkCls =
-  "rounded-lg px-2 py-1 text-sm transition " +
-  "text-zinc-600 hover:text-zinc-900 hover:bg-black/5 " +
-  "dark:text-zinc-300 dark:hover:text-white dark:hover:bg-white/10";
+  "rounded-lg px-2 py-1 text-sm transition-colors " +
+  "text-white/70 hover:text-white hover:bg-white/10 " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/40";
 
 const SiteHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-zinc-950/70">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur">
       <div className="mx-auto max-w-6xl px-4">
 
         <div className="flex items-center justify-between py-3">
@@ -52,8 +51,6 @@ const SiteHeader = () => {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle />
-
             <Button
               href="/docs/quickstart"
               variant="primary"
@@ -67,7 +64,7 @@ const SiteHeader = () => {
               aria-label="Toggle menu"
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((v) => !v)}
-              className="inline-flex items-center justify-center rounded-lg border border-black/10 bg-white/80 p-2 backdrop-blur dark:border-white/10 dark:bg-zinc-950/70 lg:hidden"
+              className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 p-2 backdrop-blur lg:hidden"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -76,7 +73,7 @@ const SiteHeader = () => {
 
         {
           mobileOpen && (
-            <div className="border-t border-black/10 py-3 dark:border-white/10 lg:hidden">
+            <div className="border-t border-white/10 py-3 lg:hidden">
               <div className="flex flex-col gap-2">
                 <Link
                   href="/docs"

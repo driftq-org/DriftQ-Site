@@ -24,12 +24,10 @@ const DocsShell = (props: { currentPath: string; children: React.ReactNode }) =>
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(99,102,241,0.14),transparent_60%)] dark:bg-[radial-gradient(70%_50%_at_50%_0%,rgba(99,102,241,0.18),transparent_60%)]" />
-
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[280px_1fr]">
           <aside className="max-h-[60vh] overflow-auto md:sticky md:top-20 md:h-[calc(100vh-120px)] md:max-h-none md:overflow-auto">
-            <div className="rounded-2xl border border-black/10 bg-white/60 p-4 shadow-soft backdrop-blur dark:border-white/10 dark:bg-zinc-950/50">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-soft backdrop-blur">
               <div className="mb-4">
                 <input
                   value={q}
@@ -37,10 +35,8 @@ const DocsShell = (props: { currentPath: string; children: React.ReactNode }) =>
                   placeholder="Search docs…"
                   className="
                     w-full rounded-xl border px-3 py-2 text-sm outline-none
-                    border-black/10 bg-white text-zinc-900 placeholder:text-zinc-500
-                    focus:ring-2 focus:ring-black/20
-                    dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-500
-                    dark:focus:ring-white/15
+                    border-white/10 bg-white/5 text-white placeholder:text-white/40
+                    focus:ring-2 focus:ring-emerald-300/30
                   "
                 />
               </div>
@@ -49,7 +45,7 @@ const DocsShell = (props: { currentPath: string; children: React.ReactNode }) =>
                 {
                   filtered.map((section) => (
                     <div key={section.title}>
-                      <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-white/50">
                         {section.title}
                       </div>
 
@@ -66,8 +62,8 @@ const DocsShell = (props: { currentPath: string; children: React.ReactNode }) =>
                                   className={[
                                     "block rounded-lg px-2 py-1 text-sm transition-colors",
                                     active
-                                      ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950"
-                                      : "text-zinc-700 hover:bg-black/5 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                                      ? "bg-emerald-300 text-zinc-950"
+                                      : "text-white/70 hover:bg-white/10 hover:text-white"
                                   ].join(" ")}
                                 >
                                   {item.title}
@@ -85,10 +81,10 @@ const DocsShell = (props: { currentPath: string; children: React.ReactNode }) =>
           </aside>
 
           <main className="min-w-0">
-            <div className="rounded-3xl border border-black/10 bg-white/60 p-6 shadow-soft backdrop-blur sm:p-8 dark:border-white/10 dark:bg-zinc-950/50">
+            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur sm:p-8">
               <div
                 className={[
-                  "prose prose-zinc max-w-none dark:prose-invert",
+                  "prose prose-invert max-w-none",
                   "leading-relaxed prose-p:leading-relaxed prose-li:my-1 prose-ul:my-4 prose-li:leading-relaxed",
 
                   "prose-headings:tracking-tight prose-headings:scroll-mt-24",
@@ -96,18 +92,15 @@ const DocsShell = (props: { currentPath: string; children: React.ReactNode }) =>
                   "prose-h2:text-2xl prose-h2:font-extrabold",
                   "prose-h3:text-xl prose-h3:font-bold",
 
-                  "[&_a]:text-indigo-400 [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-transparent",
-                  "[&_a:hover]:text-indigo-300 [&_a:hover]:decoration-indigo-300",
+                  "[&_a]:text-emerald-200 [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-transparent",
+                  "[&_a:hover]:text-emerald-100 [&_a:hover]:decoration-emerald-200/60",
 
-                  "[&_pre]:rounded-2xl [&_pre]:border [&_pre]:border-black/10 [&_pre]:bg-zinc-950 [&_pre]:p-4 [&_pre]:text-zinc-100",
-                  "dark:[&_pre]:border-white/10 dark:[&_pre]:bg-zinc-900",
+                  "[&_pre]:rounded-2xl [&_pre]:border [&_pre]:border-white/10 [&_pre]:bg-[#0b1020] [&_pre]:p-4 [&_pre]:text-zinc-100",
                   "[&_pre]:overflow-x-auto",
 
-                  "[&_code]:rounded-md [&_code]:bg-zinc-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.95em] [&_code]:text-zinc-900",
-                  "dark:[&_code]:bg-zinc-800 dark:[&_code]:text-zinc-100",
+                  "[&_code]:rounded-md [&_code]:border [&_code]:border-white/10 [&_code]:bg-white/5 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.95em] [&_code]:text-white/90",
 
-                  "[&_blockquote]:rounded-xl [&_blockquote]:border-l-2 [&_blockquote]:border-indigo-500/60 [&_blockquote]:bg-black/5 [&_blockquote]:px-4 [&_blockquote]:py-3",
-                  "dark:[&_blockquote]:bg-white/5",
+                  "[&_blockquote]:rounded-xl [&_blockquote]:border-l-2 [&_blockquote]:border-emerald-300/60 [&_blockquote]:bg-white/5 [&_blockquote]:px-4 [&_blockquote]:py-3",
                 ].join(" ")}
               >
                 {props.children}
