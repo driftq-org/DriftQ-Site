@@ -39,7 +39,6 @@ body {
   }
 }
 
-/* ====================== ALPHA BADGE (UIVERSE GLOW STYLE) ====================== */
 @keyframes alphaPulse {
   0%, 100% { opacity: 0.85; filter: blur(1px); }
   50% { opacity: 1; filter: blur(1.5px); }
@@ -50,52 +49,37 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  /* sizing like a badge */
   padding: 0.125rem 0.75rem;
   border-radius: 9999px;
-
-  /* text */
   font-weight: 900;
   letter-spacing: 0.22em;
   color: rgba(255, 255, 255, 0.92);
-
-  /* inner base */
   background-color: rgb(36, 36, 36);
-
-  /* make sure pseudo layers stay behind text */
   isolation: isolate;
 }
 
 .alpha-badge::before {
   content: "";
   position: absolute;
-  inset: -6px;
+  inset: 2px;
   border-radius: 9999px;
-
   background-image: linear-gradient(#acb6e5 35%, #86fde8);
   filter: blur(1px);
-
   box-shadow:
     0px -5px 20px 0px rgb(186, 66, 255),
     0px  5px 20px 0px rgb(0, 225, 255);
 
-  /* ✅ no rotation */
   z-index: -2;
   animation: alphaPulse 1.4s ease-in-out infinite;
 }
 
-
-/* Inner soft blur (matches .Spinner) */
 .alpha-badge::after {
   content: "";
   position: absolute;
-  inset: 3px;
+  inset: 0px;
   border-radius: 9999px;
-
   background-color: rgb(36, 36, 36);
   filter: blur(10px);
-
   opacity: 0.8;
   z-index: -1;
 }

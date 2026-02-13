@@ -113,7 +113,7 @@ const HomePage = () => (
               and streaming consumption — so your agent workflow code stays simple.
             </p>
 
-            {/* DIAGRAM */}
+            {/* TODO Diagram */}
             {/* <div className="flex justify-center py-10">
               <svg width="1020" height="400" viewBox="0 0 1020 400" fill="none" xmlns="http://www.w3.org/2000/svg">
 
