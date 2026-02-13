@@ -218,7 +218,7 @@ ghcr.io/driftq-org/driftq-core:latest`}
                     <div className="text-xs font-semibold uppercase tracking-wide text-white/50">2) Create topic</div>
                     <div className="text-xs text-white/50">CLI</div>
                   </div>
-                  <p className={`${blockCodeCls} mt-3`}>{`driftqctl topics create demo --partitions 1`}</p>
+                  <p className={`${blockCodeCls} mt-3`}>{`driftqctl topics create --name demo --partitions 1`}</p>
                 </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
@@ -236,7 +236,7 @@ curl -X POST http://localhost:8080/v1/produce \\
 -d '{"topic":"demo","value":"hello"}'
 
 # consume (stream)
-driftqctl topics peek demo --group g1`}
+driftqctl topics peek --topic demo --group g1`}
             </pre>
           </div>
 

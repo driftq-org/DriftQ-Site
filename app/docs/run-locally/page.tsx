@@ -3,7 +3,7 @@ import { CodeSpan } from "@/components/docs/DocsUI";
 import CodeBlock from "@/components/ui/CodeBlock";
 
 const IMAGE = "ghcr.io/driftq-org/driftq-core";
-const DEFAULT_VERSION = "1.0.0";
+const DEFAULT_VERSION = "1.2.0";
 const cardCls = "rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur";
 const blockCodeCls = [
   "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
@@ -89,20 +89,21 @@ curl.exe http://localhost:8080/v1/version`}</CodeBlock>
           </div>
 
           <p className="mt-3 text-sm text-white/70">
-            Compose uses a named volume so WAL persists. You can override the image tag with{" "}
-            <CodeSpan>DRIFTQ_VERSION</CodeSpan>.
+            Compose uses a named volume so WAL persists. If you cloned DriftQ-Core, build the local image once
+            (the repo compose uses <CodeSpan>driftq-core:local</CodeSpan>), then run <CodeSpan>docker compose up</CodeSpan>.
+            If you want a pinned GHCR image instead, use the minimal compose example below with <CodeSpan>DRIFTQ_VERSION</CodeSpan>.
           </p>
 
           <div className="mt-4 space-y-4">
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
-              <CodeBlock className={blockCodeCls}>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local .
 docker compose up`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
-              <CodeBlock className={blockCodeCls}>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local .
 docker compose up`}</CodeBlock>
             </div>
 
@@ -123,7 +124,7 @@ docker compose up`}</CodeBlock>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">
-                minimal compose example (defaults to {DEFAULT_VERSION})
+                minimal compose example (GHCR pinned; defaults to {DEFAULT_VERSION})
               </div>
               <CodeBlock className={blockCodeCls}>{`services:
   driftqd:
