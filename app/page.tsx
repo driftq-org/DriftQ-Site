@@ -6,7 +6,7 @@ import Reveal from "@/components/ui/Reveal";
 const containerCls = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
 const pillCls = "rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70";
 const blockCodeCls = [
-  "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
+  "min-w-0 max-w-full overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
   "!bg-zinc-950 !text-zinc-100",
   "[&_span]:!bg-transparent"
 ].join(" ");
@@ -20,7 +20,7 @@ const HomeTabs = () => (
       <div className={pillCls}>Observability</div>
     </div>
 
-    <div className="mt-6 grid gap-6 lg:grid-cols-2">
+    <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
       <div>
         <div className="text-sm font-semibold text-white">Streaming consume that feels reliable</div>
         <p className="mt-2 text-sm leading-6 text-white/70">
@@ -95,9 +95,9 @@ const HomePage = () => (
     {/* HERO */}
     <section className="relative overflow-hidden">
       <div className={`${containerCls} pt-14 pb-16 sm:pt-20 sm:pb-20`}>
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
           <Reveal className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-[12px] border border-white/10 bg-white/5 px-1 py-0.5 text-xs text-white/70">
+            <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-[12px] border border-white/10 bg-white/5 px-1 py-0.5 text-xs text-white/70">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
               Open-source • Developer-first •
               <span className="alpha-badge">ALPHA</span>
@@ -177,7 +177,7 @@ const HomePage = () => (
               </Button>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex max-w-full flex-wrap gap-2 pt-2">
               <span className={pillCls}>Go core</span>
               <span className={pillCls}>WAL-backed</span>
               <span className={pillCls}>REST + streaming</span>
@@ -185,7 +185,7 @@ const HomePage = () => (
             </div>
           </Reveal>
 
-          <Reveal delayMs={90}>
+          <Reveal delayMs={90} className="min-w-0">
             <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur sm:p-7">
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -260,7 +260,7 @@ driftqctl topics peek --topic demo --group g1`}
     {/* RELIABILITY PRIMITIVES */}
     <section className="relative">
       <div className={`${containerCls} py-16 sm:py-20`}>
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
           <Reveal className="lg:col-span-5">
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
               Reliability primitives that don’t leak
@@ -279,7 +279,7 @@ driftqctl topics peek --topic demo --group g1`}
           </Reveal>
 
           <div className="lg:col-span-7">
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Reveal delayMs={0} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur">
                 <div className="text-sm font-semibold text-white">Streaming consume</div>
                 <p className="mt-2 text-sm leading-6 text-white/70">
@@ -316,7 +316,7 @@ driftqctl topics peek --topic demo --group g1`}
     {/* FEATURE PANEL */}
     <section className="relative">
       <div className={`${containerCls} py-16 sm:py-20`}>
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
           <Reveal className="lg:col-span-5">
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
               Failure is normal. Make it boring.
@@ -351,7 +351,7 @@ driftqctl topics peek --topic demo --group g1`}
       <div className={`${containerCls} pb-20`}>
         <Reveal>
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-soft backdrop-blur sm:p-10">
-            <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-8">
                 <h3 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
                   Ship reliable workflows without rebuilding infrastructure.

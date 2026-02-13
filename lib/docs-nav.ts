@@ -30,7 +30,8 @@ const rawDocsNav: NavSection[] = [
       { title: "Overview", href: "/docs" },
       { title: "Run locally", href: "/docs/run-locally" },
       { title: "Quickstart", href: "/docs/quickstart" },
-      { title: "Use Cases", href: "/docs/use-cases" }
+      { title: "Use Cases", href: "/docs/use-cases" },
+      { title: "Starters", href: "/docs/starters" }
     ]
   },
   {
