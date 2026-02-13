@@ -1,11 +1,15 @@
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
-import CodeBlock from "@/components/ui/CodeBlock";
 
+// TODO move these to shared file
 const containerCls = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
 const pillCls = "rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70";
-const codeBoxCls = "rounded-2xl border border-white/10 bg-[#0b1020] p-4 text-[12px] leading-relaxed text-zinc-100 shadow-soft";
+const blockCodeCls = [
+  "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
+  "!bg-zinc-950 !text-zinc-100",
+  "[&_span]:!bg-transparent"
+].join(" ");
 
 const HomeTabs = () => (
   <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur sm:p-7">
@@ -93,9 +97,11 @@ const HomePage = () => (
       <div className={`${containerCls} pt-14 pb-16 sm:pt-20 sm:pb-20`}>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
           <Reveal className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+            <div className="inline-flex items-center gap-2 rounded-[12px] border border-white/10 bg-white/5 px-1 py-0.5 text-xs text-white/70">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-              Open-source • Developer-first • Built for reliability
+              Open-source • Developer-first •
+              <span className="alpha-badge">ALPHA</span>
+              • Built for reliability
             </div>
 
             <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl">
@@ -161,7 +167,14 @@ const HomePage = () => (
             </div> */}
 
             <div className="flex flex-wrap items-center gap-3">
-              <Button href="docs/run-locally" variant="primary">Run locally</Button>
+              <Button href="docs/run-locally" variant="primary">Run Locally</Button>
+              <Button
+                href="docs/"
+                variant="primary"
+                className="!bg-white !text-zinc-950 hover:!bg-zinc-100"
+              >
+                View Docs
+              </Button>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-2">
@@ -190,31 +203,43 @@ const HomePage = () => (
                     <div className="text-xs font-semibold uppercase tracking-wide text-white/50">1) Run</div>
                     <div className="text-xs text-white/50">docker</div>
                   </div>
-                  <CodeBlock className={`${codeBoxCls} mt-3`}>{`docker run --rm -p 8080:8080 \
-  -v driftq-data:/data ghcr.io/driftq-org/driftq-core:latest`}</CodeBlock>
+
+                  <pre className={`${blockCodeCls} mt-3 whitespace-pre`}>
+                {`docker run --rm \\
+-p 8080:8080 \\
+-v driftq-data:/data \\
+ghcr.io/driftq-org/driftq-core:latest`}
+                  </pre>
                 </div>
+
 
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
                   <div className="flex items-center justify-between">
                     <div className="text-xs font-semibold uppercase tracking-wide text-white/50">2) Create topic</div>
                     <div className="text-xs text-white/50">CLI</div>
                   </div>
-                  <CodeBlock className={`${codeBoxCls} mt-3`}>{`driftqctl topics create demo --partitions 1`}</CodeBlock>
+                  <p className={`${blockCodeCls} mt-3`}>{`driftqctl topics create demo --partitions 1`}</p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-white/50">3) Produce + consume</div>
-                    <div className="text-xs text-white/50">streaming</div>
-                  </div>
-                  <CodeBlock className={`${codeBoxCls} mt-3`}>{`# produce
-curl -X POST http://localhost:8080/v1/produce \
-  -H "content-type: application/json" \
-  -d '{"topic":"demo","value":"hello"}'
+          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+            <div className="flex items-center justify-between">
+              <div className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                3) Produce + consume
+              </div>
+              <div className="text-xs text-white/50">streaming</div>
+            </div>
+
+            <pre className={`${blockCodeCls} mt-3 whitespace-pre`}>
+              {`# produce
+curl -X POST http://localhost:8080/v1/produce \\
+-H "content-type: application/json" \\
+-d '{"topic":"demo","value":"hello"}'
 
 # consume (stream)
-driftqctl topics peek demo --group g1`}</CodeBlock>
-                </div>
+driftqctl topics peek demo --group g1`}
+            </pre>
+          </div>
+
               </div>
 
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
