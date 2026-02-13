@@ -1,6 +1,7 @@
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import CodeBlock from "@/components/ui/CodeBlock";
 
 const containerCls = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
 const pillCls = "rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70";
@@ -189,8 +190,8 @@ const HomePage = () => (
                     <div className="text-xs font-semibold uppercase tracking-wide text-white/50">1) Run</div>
                     <div className="text-xs text-white/50">docker</div>
                   </div>
-                  <pre className={`${codeBoxCls} mt-3`}><code>{`docker run --rm -p 8080:8080 \
-  -v driftq-data:/data ghcr.io/driftq-org/driftq-core:latest`}</code></pre>
+                  <CodeBlock className={`${codeBoxCls} mt-3`}>{`docker run --rm -p 8080:8080 \
+  -v driftq-data:/data ghcr.io/driftq-org/driftq-core:latest`}</CodeBlock>
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
@@ -198,7 +199,7 @@ const HomePage = () => (
                     <div className="text-xs font-semibold uppercase tracking-wide text-white/50">2) Create topic</div>
                     <div className="text-xs text-white/50">CLI</div>
                   </div>
-                  <pre className={`${codeBoxCls} mt-3`}><code>{`driftqctl topics create demo --partitions 1`}</code></pre>
+                  <CodeBlock className={`${codeBoxCls} mt-3`}>{`driftqctl topics create demo --partitions 1`}</CodeBlock>
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
@@ -206,13 +207,13 @@ const HomePage = () => (
                     <div className="text-xs font-semibold uppercase tracking-wide text-white/50">3) Produce + consume</div>
                     <div className="text-xs text-white/50">streaming</div>
                   </div>
-                  <pre className={`${codeBoxCls} mt-3`}><code>{`# produce
+                  <CodeBlock className={`${codeBoxCls} mt-3`}>{`# produce
 curl -X POST http://localhost:8080/v1/produce \
   -H "content-type: application/json" \
   -d '{"topic":"demo","value":"hello"}'
 
 # consume (stream)
-driftqctl topics peek demo --group g1`}</code></pre>
+driftqctl topics peek demo --group g1`}</CodeBlock>
                 </div>
               </div>
 

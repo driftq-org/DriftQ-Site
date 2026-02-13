@@ -1,25 +1,15 @@
 import DocsShell from "@/components/docs/DocsShell";
 import { CodeSpan } from "@/components/docs/DocsUI";
+import CodeBlock from "@/components/ui/CodeBlock";
 
 const IMAGE = "ghcr.io/driftq-org/driftq-core";
 const DEFAULT_VERSION = "1.0.0";
 const cardCls = "rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur";
-
-const BlockCode = ({ children }: { children: string }) => (
-  <pre
-    className={[
-      "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
-      "!bg-zinc-950 !text-zinc-100",
-      // nuke any global/light-theme code styling
-      "[&_code]:block [&_code]:w-full [&_code]:whitespace-pre",
-      "[&_code]:!bg-transparent [&_code]:!p-0 [&_code]:!m-0 [&_code]:!text-inherit",
-      // extra safety if any highlighter wraps spans
-      "[&_span]:!bg-transparent"
-    ].join(" ")}
-  >
-    <code>{children}</code>
-  </pre>
-);
+const blockCodeCls = [
+  "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
+  "!bg-zinc-950 !text-zinc-100",
+  "[&_span]:!bg-transparent"
+].join(" ");
 
 const RunLocallyPage = () => (
   <DocsShell currentPath="/docs/run-locally/">
@@ -49,25 +39,25 @@ const RunLocallyPage = () => (
           <div className="mt-4 space-y-4">
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
-              <BlockCode>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
+              <CodeBlock className={blockCodeCls}>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
 docker pull ${IMAGE}:$DRIFTQ_VERSION
-docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$DRIFTQ_VERSION`}</BlockCode>
+docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$DRIFTQ_VERSION`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
-              <BlockCode>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
+              <CodeBlock className={blockCodeCls}>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
 docker pull ${IMAGE}:$env:DRIFTQ_VERSION
-docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$env:DRIFTQ_VERSION`}</BlockCode>
+docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$env:DRIFTQ_VERSION`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">verify</div>
-              <BlockCode>{`# mac/linux
+              <CodeBlock className={blockCodeCls}>{`# mac/linux
 curl http://localhost:8080/v1/version
 
 # windows powershell
-curl.exe http://localhost:8080/v1/version`}</BlockCode>
+curl.exe http://localhost:8080/v1/version`}</CodeBlock>
             </div>
 
             <div className="text-sm text-white/70">
@@ -89,7 +79,7 @@ curl.exe http://localhost:8080/v1/version`}</BlockCode>
               Stop it with <CodeSpan>Ctrl+C</CodeSpan>. To wipe persisted WAL/data:
             </p>
 
-            <BlockCode>{`docker volume rm driftq-data`}</BlockCode>
+            <CodeBlock className={blockCodeCls}>{`docker volume rm driftq-data`}</CodeBlock>
           </div>
         </div>
 
@@ -106,14 +96,14 @@ curl.exe http://localhost:8080/v1/version`}</BlockCode>
           <div className="mt-4 space-y-4">
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
-              <BlockCode>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
-docker compose up`}</BlockCode>
+              <CodeBlock className={blockCodeCls}>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
+docker compose up`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
-              <BlockCode>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
-docker compose up`}</BlockCode>
+              <CodeBlock className={blockCodeCls}>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
+docker compose up`}</CodeBlock>
             </div>
 
             <div className="text-sm text-white/70">
@@ -123,19 +113,19 @@ docker compose up`}</BlockCode>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">stop</div>
-              <BlockCode>{`docker compose down`}</BlockCode>
+              <CodeBlock className={blockCodeCls}>{`docker compose down`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">wipe WAL/data</div>
-              <BlockCode>{`docker compose down -v`}</BlockCode>
+              <CodeBlock className={blockCodeCls}>{`docker compose down -v`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">
                 minimal compose example (defaults to {DEFAULT_VERSION})
               </div>
-              <BlockCode>{`services:
+              <CodeBlock className={blockCodeCls}>{`services:
   driftqd:
     image: ${IMAGE}:\${DRIFTQ_VERSION:-${DEFAULT_VERSION}}
     ports:
@@ -144,7 +134,7 @@ docker compose up`}</BlockCode>
       - driftq-data:/data
 
 volumes:
-  driftq-data:`}</BlockCode>
+  driftq-data:`}</CodeBlock>
             </div>
           </div>
         </div>
@@ -155,23 +145,23 @@ volumes:
           <div className="mt-4 space-y-4">
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
-              <BlockCode>{`docker build -t driftq-core:local \\
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local \\
   --build-arg VERSION=dev \\
   --build-arg COMMIT="$(git rev-parse --short HEAD)" \\
-  .`}</BlockCode>
+  .`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
-              <BlockCode>{`docker build -t driftq-core:local \`
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local \`
   --build-arg VERSION=dev \`
   --build-arg COMMIT=$(git rev-parse --short HEAD) \`
-  .`}</BlockCode>
+  .`}</CodeBlock>
             </div>
 
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">run</div>
-              <BlockCode>{`docker run --rm -p 8080:8080 -v driftq-data:/data driftq-core:local`}</BlockCode>
+              <CodeBlock className={blockCodeCls}>{`docker run --rm -p 8080:8080 -v driftq-data:/data driftq-core:local`}</CodeBlock>
             </div>
           </div>
         </div>
