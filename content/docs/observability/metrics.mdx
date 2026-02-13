@@ -12,7 +12,7 @@ description: Prometheus metrics exposed by DriftQ-Core.
       Use it to monitor reliability, lag, and backpressure in real time.
     </p>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
       <p className="m-0">
         <strong>Endpoint:</strong> <code>GET /metrics</code>
       </p>
@@ -25,38 +25,38 @@ description: Prometheus metrics exposed by DriftQ-Core.
 
     <div className="space-y-3">
 
-      <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-100">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
         <div className="font-semibold">
           <code>inflight_messages{"{topic,group,partition}"}</code>
         </div>
-        <div className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">
+        <div className="mt-1 text-sm text-white/70">
           Current number of leased (in-flight) messages.
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-100">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
         <div className="font-semibold">
           <code>consumer_lag{"{topic,group,partition}"}</code>
         </div>
-        <div className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">
+        <div className="mt-1 text-sm text-white/70">
           Messages remaining after the committed offset (how far behind the group is).
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-100">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
         <div className="font-semibold">
           <code>dlq_messages_total{"{topic,reason}"}</code>
         </div>
-        <div className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">
+        <div className="mt-1 text-sm text-white/70">
           Total number of messages routed to DLQ, labeled by reason.
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-100">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
         <div className="font-semibold">
           <code>produce_rejected_total{"{reason}"}</code>
         </div>
-        <div className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">
+        <div className="mt-1 text-sm text-white/70">
           Total rejected produce attempts due to backpressure / overload (labeled by reason).
         </div>
       </div>
@@ -68,7 +68,7 @@ description: Prometheus metrics exposed by DriftQ-Core.
   <section className="space-y-4">
     <h2 className="m-0">Quick usage</h2>
 
-    <pre className="not-prose m-0 overflow-x-auto whitespace-pre rounded-2xl border !border-black/10 !bg-black/5 px-4 py-3 font-mono text-sm leading-relaxed !text-zinc-900 dark:!border-white/10 dark:!bg-white/5 dark:!text-zinc-100">
+    <pre className="not-prose m-0 overflow-x-auto rounded-2xl px-4 py-3 font-mono text-sm leading-relaxed shadow-sm !bg-zinc-950 !text-zinc-100">
       <code className="!bg-transparent !p-0 !text-inherit">{`# view everything
 curl -s "http://localhost:8080/metrics"
 
@@ -79,7 +79,7 @@ curl -s "http://localhost:8080/metrics" | findstr consumer_lag
 curl -s "http://localhost:8080/metrics" | grep consumer_lag`}</code>
     </pre>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
       <p className="m-0">
         <strong>Tip:</strong> Alert on sustained lag growth and DLQ increases — those usually mean real production issues.
       </p>
