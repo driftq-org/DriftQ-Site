@@ -8,9 +8,9 @@ body {
 }
 
 @layer base {
-  /* Let layout.tsx control bg/text colors via Tailwind classes */
   body {
-    @apply antialiased;
+    /* Prevent any tiny visual effects (glows, blurs) from causing horizontal page scroll on mobile */
+    @apply antialiased overflow-x-hidden;
   }
 
   a {
@@ -23,19 +23,63 @@ body {
     font-size: 0.95em;
   }
 
-  /* Default code-block styling (works in both themes) */
+  /* Dark-only code styling */
   pre {
     overflow-x: auto;
     border-radius: 0.75rem;
     padding: 1rem;
-    background: #f4f4f5; /* light */
-    color: #0a0a0a;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #e8eeff;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   }
 
-  .dark pre {
-    background: #0b1020; /* dark */
-    color: #e8eeff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  ::selection {
+    background: rgba(16, 185, 129, 0.25);
   }
+}
+
+@keyframes alphaPulse {
+  0%, 100% { opacity: 0.85; filter: blur(1px); }
+  50% { opacity: 1; filter: blur(1.5px); }
+}
+
+.alpha-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.92);
+  background-color: rgb(36, 36, 36);
+  isolation: isolate;
+}
+
+.alpha-badge::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 9999px;
+  background-image: linear-gradient(#acb6e5 35%, #86fde8);
+  filter: blur(1px);
+  box-shadow:
+    0px -5px 20px 0px rgb(186, 66, 255),
+    0px  5px 20px 0px rgb(0, 225, 255);
+
+  z-index: -2;
+  animation: alphaPulse 1.4s ease-in-out infinite;
+}
+
+.alpha-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  border-radius: 9999px;
+  background-color: rgb(36, 36, 36);
+  filter: blur(10px);
+  opacity: 0.8;
+  z-index: -1;
 }

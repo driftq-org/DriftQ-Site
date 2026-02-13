@@ -12,7 +12,7 @@ description: The core consumer model behind DriftQ-Core.
       <strong>consumer groups</strong>, and <strong>owners</strong>. If these click, the rest of the API feels obvious.
     </div>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <div className="m-0">
         <strong>Quick mental model:</strong> topic = stream, group = subscription, owner = worker identity.
       </div>
@@ -45,7 +45,7 @@ description: The core consumer model behind DriftQ-Core.
       </ul>
     </div>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <div className="m-0">
         <strong>Rule of thumb:</strong> ordering is <strong>per-partition</strong>, not across the entire topic.
       </div>
@@ -91,7 +91,7 @@ description: The core consumer model behind DriftQ-Core.
       <div className="m-0">Both are valid and normal.</div>
     </div>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <div className="m-0">
         <strong>What this enables:</strong> multiple independent workflows reading the same event stream.
       </div>
@@ -137,7 +137,7 @@ description: The core consumer model behind DriftQ-Core.
       </ol>
     </div>
 
-    <div className="rounded-2xl border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <div className="m-0">
         <strong>Bottom line:</strong> <code>owner</code> is what makes retries safe and prevents “wrong consumer acked it.”
       </div>

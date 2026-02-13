@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import CodeBlock from "@/components/ui/CodeBlock";
 
 export const mdxComponents = {
   a: (props: any) => {
@@ -7,8 +8,8 @@ export const mdxComponents = {
     const isExternal = typeof href === "string" && href.startsWith("http");
 
     const cls =
-      "underline underline-offset-4 decoration-zinc-300 hover:decoration-zinc-500 " +
-      "text-zinc-900 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-400";
+      "underline underline-offset-4 decoration-white/20 hover:decoration-emerald-200/60 " +
+      "text-emerald-200 hover:text-emerald-100";
 
     if (href && isExternal) {
       // keep any existing className but ensure readable defaults
@@ -36,9 +37,23 @@ export const mdxComponents = {
     return <a {...props} className={[cls, props.className].filter(Boolean).join(" ")} />;
   },
 
-  code: (props: any) => (
-    <code className="rounded bg-zinc-100 px-1 py-0.5 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
-      {props.children}
-    </code>
-  )
+  pre: ({ children, ...props }: React.ComponentPropsWithoutRef<"pre">) => (
+    <CodeBlock {...props}>{children}</CodeBlock>
+  ),
+
+  code: (props: React.ComponentPropsWithoutRef<"code">) => {
+    const { className, ...rest } = props;
+    const isBlockCode = typeof className === "string" && className.trim().length > 0;
+
+    if (isBlockCode) {
+      return <code {...rest} className={className} />;
+    }
+
+    return (
+      <code
+        {...rest}
+        className={["rounded border border-white/10 bg-white/5 px-1 py-0.5 text-white/90", className].filter(Boolean).join(" ")}
+      />
+    );
+  }
 } as const;

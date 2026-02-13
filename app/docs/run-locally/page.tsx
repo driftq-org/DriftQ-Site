@@ -1,77 +1,67 @@
 import DocsShell from "@/components/docs/DocsShell";
 import { CodeSpan } from "@/components/docs/DocsUI";
+import CodeBlock from "@/components/ui/CodeBlock";
 
 const IMAGE = "ghcr.io/driftq-org/driftq-core";
-const DEFAULT_VERSION = "1.0.0";
-const cardCls = "rounded-3xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5";
-
-const BlockCode = ({ children }: { children: string }) => (
-  <pre
-    className={[
-      "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
-      "!bg-zinc-950 !text-zinc-100",
-      // nuke any global/light-theme code styling
-      "[&_code]:block [&_code]:w-full [&_code]:whitespace-pre",
-      "[&_code]:!bg-transparent [&_code]:!p-0 [&_code]:!m-0 [&_code]:!text-inherit",
-      // extra safety if any highlighter wraps spans
-      "[&_span]:!bg-transparent"
-    ].join(" ")}
-  >
-    <code>{children}</code>
-  </pre>
-);
+const DEFAULT_VERSION = "1.2.0";
+const cardCls = "rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur";
+const blockCodeCls = [
+  "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
+  "!bg-zinc-950 !text-zinc-100",
+  "[&_span]:!bg-transparent"
+].join(" ");
 
 const RunLocallyPage = () => (
   <DocsShell currentPath="/docs/run-locally/">
     <div className="not-prose">
       <div className="space-y-8">
         <div className="space-y-3">
-          <h1 className="text-3xl font-black tracking-tight text-zinc-950 dark:text-white sm:text-4xl">
+          <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
             Run DriftQ-Core locally
           </h1>
 
-          <p className="max-w-2xl text-zinc-600 dark:text-zinc-300">
+          <p className="max-w-2xl text-white/70">
             The 2-minute path to running DriftQ-Core on any machine with Docker. Use a pinned version for reproducible
             runs (recommended).
           </p>
         </div>
 
         <div className={cardCls}>
-          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          <div className="text-sm font-semibold text-white">
             Option A (recommended): Pull from GHCR and run
           </div>
 
-          <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-200">
+          <p className="mt-3 text-sm text-white/70">
             Pin a version so your run is reproducible. <CodeSpan>latest</CodeSpan> tracks <CodeSpan>main</CodeSpan>{" "}
             (convenient, but can break unexpectedly).
           </p>
 
           <div className="mt-4 space-y-4">
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">mac/linux</div>
-              <BlockCode>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
+              <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
+              <CodeBlock className={blockCodeCls}>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
 docker pull ${IMAGE}:$DRIFTQ_VERSION
-docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$DRIFTQ_VERSION`}</BlockCode>
+docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$DRIFTQ_VERSION`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">windows powershell</div>
-              <BlockCode>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
+              <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
+              <CodeBlock className={blockCodeCls}>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
 docker pull ${IMAGE}:$env:DRIFTQ_VERSION
-docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$env:DRIFTQ_VERSION`}</BlockCode>
+docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$env:DRIFTQ_VERSION`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">verify</div>
-              <BlockCode>{`# mac/linux
+              <div className="mb-2 text-xs font-semibold text-white/50">verify</div>
+              <CodeBlock className={blockCodeCls}>{`# mac/linux
 curl http://localhost:8080/v1/version
 
 # windows powershell
-curl.exe http://localhost:8080/v1/version`}</BlockCode>
+curl.exe http://localhost:8080/v1/version`}</CodeBlock>
             </div>
 
-            <div className="text-sm text-zinc-700 dark:text-zinc-200">
-              <div className="font-semibold text-zinc-900 dark:text-zinc-100">Useful tags</div>
+            <div className="text-sm text-white/70">
+              <div className="font-semibold text-white">Useful tags</div>
               <ul className="mt-2 space-y-1">
                 <li>
                   • <CodeSpan>{`${IMAGE}:${DEFAULT_VERSION}`}</CodeSpan> (recommended: reproducible)
@@ -85,57 +75,58 @@ curl.exe http://localhost:8080/v1/version`}</BlockCode>
               </ul>
             </div>
 
-            <p className="text-sm text-zinc-700 dark:text-zinc-200">
+            <p className="text-sm text-white/70">
               Stop it with <CodeSpan>Ctrl+C</CodeSpan>. To wipe persisted WAL/data:
             </p>
 
-            <BlockCode>{`docker volume rm driftq-data`}</BlockCode>
+            <CodeBlock className={blockCodeCls}>{`docker volume rm driftq-data`}</CodeBlock>
           </div>
         </div>
 
         <div className={cardCls}>
-          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          <div className="text-sm font-semibold text-white">
             Option B: Docker Compose (recommended if you cloned the repo)
           </div>
 
-          <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-200">
-            Compose uses a named volume so WAL persists. You can override the image tag with{" "}
-            <CodeSpan>DRIFTQ_VERSION</CodeSpan>.
+          <p className="mt-3 text-sm text-white/70">
+            Compose uses a named volume so WAL persists. If you cloned DriftQ-Core, build the local image once
+            (the repo compose uses <CodeSpan>driftq-core:local</CodeSpan>), then run <CodeSpan>docker compose up</CodeSpan>.
+            If you want a pinned GHCR image instead, use the minimal compose example below with <CodeSpan>DRIFTQ_VERSION</CodeSpan>.
           </p>
 
           <div className="mt-4 space-y-4">
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">mac/linux</div>
-              <BlockCode>{`export DRIFTQ_VERSION="${DEFAULT_VERSION}"
-docker compose up`}</BlockCode>
+              <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local .
+docker compose up`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">windows powershell</div>
-              <BlockCode>{`$env:DRIFTQ_VERSION="${DEFAULT_VERSION}"
-docker compose up`}</BlockCode>
+              <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local .
+docker compose up`}</CodeBlock>
             </div>
 
-            <div className="text-sm text-zinc-700 dark:text-zinc-200">
+            <div className="text-sm text-white/70">
               DriftQ listens on <CodeSpan>http://localhost:8080</CodeSpan>. WAL is stored in a named Docker volume
               mounted at <CodeSpan>/data</CodeSpan> inside the container.
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">stop</div>
-              <BlockCode>{`docker compose down`}</BlockCode>
+              <div className="mb-2 text-xs font-semibold text-white/50">stop</div>
+              <CodeBlock className={blockCodeCls}>{`docker compose down`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">wipe WAL/data</div>
-              <BlockCode>{`docker compose down -v`}</BlockCode>
+              <div className="mb-2 text-xs font-semibold text-white/50">wipe WAL/data</div>
+              <CodeBlock className={blockCodeCls}>{`docker compose down -v`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                minimal compose example (defaults to {DEFAULT_VERSION})
+              <div className="mb-2 text-xs font-semibold text-white/50">
+                minimal compose example (GHCR pinned; defaults to {DEFAULT_VERSION})
               </div>
-              <BlockCode>{`services:
+              <CodeBlock className={blockCodeCls}>{`services:
   driftqd:
     image: ${IMAGE}:\${DRIFTQ_VERSION:-${DEFAULT_VERSION}}
     ports:
@@ -144,45 +135,45 @@ docker compose up`}</BlockCode>
       - driftq-data:/data
 
 volumes:
-  driftq-data:`}</BlockCode>
+  driftq-data:`}</CodeBlock>
             </div>
           </div>
         </div>
 
         <div className={cardCls}>
-          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Option C: Build locally (dev)</div>
+          <div className="text-sm font-semibold text-white">Option C: Build locally (dev)</div>
 
           <div className="mt-4 space-y-4">
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">mac/linux</div>
-              <BlockCode>{`docker build -t driftq-core:local \\
+              <div className="mb-2 text-xs font-semibold text-white/50">mac/linux</div>
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local \\
   --build-arg VERSION=dev \\
   --build-arg COMMIT="$(git rev-parse --short HEAD)" \\
-  .`}</BlockCode>
+  .`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">windows powershell</div>
-              <BlockCode>{`docker build -t driftq-core:local \`
+              <div className="mb-2 text-xs font-semibold text-white/50">windows powershell</div>
+              <CodeBlock className={blockCodeCls}>{`docker build -t driftq-core:local \`
   --build-arg VERSION=dev \`
   --build-arg COMMIT=$(git rev-parse --short HEAD) \`
-  .`}</BlockCode>
+  .`}</CodeBlock>
             </div>
 
             <div>
-              <div className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">run</div>
-              <BlockCode>{`docker run --rm -p 8080:8080 -v driftq-data:/data driftq-core:local`}</BlockCode>
+              <div className="mb-2 text-xs font-semibold text-white/50">run</div>
+              <CodeBlock className={blockCodeCls}>{`docker run --rm -p 8080:8080 -v driftq-data:/data driftq-core:local`}</CodeBlock>
             </div>
           </div>
         </div>
 
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-white/50">
           Note: this page mirrors the{" "}
           <a
             href="https://github.com/driftq-org/DriftQ-Core?tab=readme-ov-file#driftq-core"
             target="_blank"
             rel="noreferrer"
-            className="underline underline-offset-4 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            className="underline underline-offset-4 text-emerald-200 hover:text-emerald-100"
           >
             repo README
           </a>

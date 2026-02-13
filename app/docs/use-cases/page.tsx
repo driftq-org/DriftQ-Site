@@ -5,7 +5,7 @@ import { Callout, UseCase } from "@/components/docs/DocsUI";
 const UseCasesPage = () => (
   <DocsShell currentPath="/docs/use-cases">
     <div className="space-y-4">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-950 dark:text-white sm:text-4xl">
+      <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
         Use Cases
       </h1>
 
