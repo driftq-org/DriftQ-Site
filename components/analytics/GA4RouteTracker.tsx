@@ -14,6 +14,10 @@ export default function GA4RouteTracker({ measurementId }: Props) {
   const search = searchParams?.toString() ?? "";
 
   useEffect(() => {
+    if (!pathname) {
+      return;
+    }
+
     if (!measurementId) {
       return;
     }
