@@ -1,4 +1,5 @@
 import "./globals.css";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import Providers from "./providers";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en" suppressHydrationWarning>
     <body className="min-h-screen bg-[#05070c] text-zinc-50 antialiased overflow-x-hidden">
+      <GoogleAnalytics />
       {/* Global background (grid + corner glows) */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-[#05070c]" />
@@ -31,9 +33,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <div
           className="absolute inset-0 opacity-70 [mask-image:radial-gradient(45%_45%_at_50%_0%,black,transparent_70%)]"
           style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
+            backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)",
+            backgroundSize: "80px 80px"
           }}
         />
 
