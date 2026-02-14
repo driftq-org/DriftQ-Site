@@ -51,8 +51,8 @@ description: Where the DriftQ project is going next (v2 and beyond).
   <section className="space-y-5">
     <h2 className="m-0 flex flex-wrap items-center gap-2">
       <span>v2: Replayable Workflow Runtime — Time-travel debugging and safe retries for AI workflows</span>
-      <span className="inline-flex items-center rounded-full border border-amber-300/40 bg-amber-300/15 px-2 py-0.5 text-xs font-medium text-amber-100">
-        In progress
+      <span className="inline-flex items-center rounded-full border border-emerald-300/40 bg-emerald-300/15 px-2 py-0.5 text-xs font-medium text-emerald-100">
+        Completed
       </span>
     </h2>
 
@@ -61,13 +61,13 @@ description: Where the DriftQ project is going next (v2 and beyond).
     </p>
 
     <ul className="space-y-2">
-      <li><strong>Packaging</strong> &amp; docs — polished local-first run path + clean docs</li>
-      <li><strong>Replayable runs</strong> — append-only run history + deterministic replay / re-drive from step N</li>
-      <li><strong>Workflow primitives</strong> — timers/delay, cancel, join/barrier, timeouts</li>
-      <li><strong>Budgets &amp; throttles</strong> — attempt/time/cost limits, concurrency caps, explicit backpressure</li>
-      <li><strong>Developer tooling</strong> — Run Inspector, attempt diffs, DLQ drilldown + fingerprints</li>
-      <li><strong>Observability</strong> — trace/run correlation + step metrics to answer “slow/stuck/costing” fast</li>
-      <li><strong>Templates &amp; demos</strong> — starter workflows (including a one-command RAG Index Builder demo)</li>
+      <li><strong>Packaging</strong> &amp; docs — Docker local run path + v2 foundations docs</li>
+      <li><strong>Replayable runs</strong> — durable run state + append-only event log; deterministic DAG scheduling; time-travel replay + live re-drive from step N; artifacts + replay cache</li>
+      <li><strong>Workflow primitives</strong> — durable timers/delay (survive restarts), cancel propagation, join/barrier via DAG deps, per-node timeouts</li>
+      <li><strong>Budgets &amp; throttles</strong> — max attempts + wall-clock timeout; optional token/$ usage tracking (best-effort); concurrency caps (topic + tenant/topic)</li>
+      <li><strong>Developer tooling</strong> — driftqctl runs list/inspect/timeline/diff/replay + promote/rollback; topics lag/peek helpers</li>
+      <li><strong>Observability</strong> — request_id + trace_id correlation; step timing metrics; /debug/metrics snapshot</li>
+      <li><strong>Templates &amp; demos</strong> — built-in demo handlers + /debug/run-demo + /debug/run-spec to start runs fast</li>
     </ul>
 
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
