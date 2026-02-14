@@ -21,6 +21,7 @@ jobs:
       # Custom domain root deploy => no basePath
       NEXT_PUBLIC_BASE_PATH: ""
       GITHUB_PAGES_PROJECT: "false"
+      NEXT_PUBLIC_GA4_ID: ${{ vars.NEXT_PUBLIC_GA4_ID }}
     steps:
       - uses: actions/checkout@v4
 
