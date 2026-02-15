@@ -1,8 +1,7 @@
 export const site = {
   name: "DriftQ",
-  tagline: "AI-native message queue and workflow backbone",
-  description:
-    "DriftQ-Core is a lightweight message broker built for AI workflows: streaming consume, leases, retries, idempotency, DLQ routing, and first-class observability.",
+  tagline: "The AI-native backbone for reliable agent workflows",
+  description: "Build reliable agent workflows with a durable message queue: streaming consumption, leases, retries, idempotency, and DLQ routing. Keep your AI code simple.",
   githubUrl: "https://github.com/driftq-org/DriftQ-Core",
   docsBasePath: "/docs"
 } as const;
