@@ -3,7 +3,7 @@ import { CodeSpan } from "@/components/docs/DocsUI";
 import CodeBlock from "@/components/ui/CodeBlock";
 
 const IMAGE = "ghcr.io/driftq-org/driftq-core";
-const DEFAULT_VERSION = "1.2.0";
+const DEFAULT_VERSION = "1.3.0";
 const cardCls = "rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur";
 const blockCodeCls = [
   "overflow-x-auto rounded-2xl px-4 py-3 font-mono text-xs leading-relaxed shadow-sm sm:text-sm",
@@ -22,7 +22,7 @@ const RunLocallyPage = () => (
 
           <p className="max-w-2xl text-white/70">
             The 2-minute path to running DriftQ-Core on any machine with Docker. Use a pinned version for reproducible
-            runs (recommended).
+            runs (recommended). The Docker image also includes the built-in dashboard UI at <CodeSpan>/ui/</CodeSpan>.
           </p>
         </div>
 
@@ -54,11 +54,15 @@ docker run --rm -p 8080:8080 -v driftq-data:/data ${IMAGE}:$env:DRIFTQ_VERSION`}
             <div>
               <div className="mb-2 text-xs font-semibold text-white/50">verify</div>
               <CodeBlock className={blockCodeCls}>{`# mac/linux
-curl http://localhost:8080/v1/version
+curl http://localhost:8080/v1/healthz
 
 # windows powershell
-curl.exe http://localhost:8080/v1/version`}</CodeBlock>
+curl.exe http://localhost:8080/v1/healthz`}</CodeBlock>
             </div>
+
+            <p className="text-sm text-white/70">
+              Once the container is up, open <CodeSpan>http://localhost:8080/ui/</CodeSpan> for the embedded dashboard.
+            </p>
 
             <div className="text-sm text-white/70">
               <div className="font-semibold text-white">Useful tags</div>

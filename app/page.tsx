@@ -1,4 +1,5 @@
 import Button from "@/components/ui/Button";
+import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 
@@ -100,7 +101,7 @@ const HomePage = () => (
             <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-[12px] border border-white/10 bg-white/5 px-1 py-0.5 text-xs text-white/70">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
               Open-source • Developer-first •
-              <span className="alpha-badge">ALPHA</span>
+              <span className="beta-badge">BETA</span>
               • Built for reliability
             </div>
 
@@ -109,8 +110,8 @@ const HomePage = () => (
             </h1>
 
             <p className="max-w-xl text-lg leading-relaxed text-white/70">
-              DriftQ turns retry hell into a reliable, observable system: with durable topics, idempotency, leases, DLQ,
-              and streaming consumption — so your agent workflow code stays simple.
+              DriftQ turns retry hell into a reliable, observable system with durable topics, idempotency, leases, DLQ,
+              streaming consumption, and a built-in dashboard UI so your agent workflow code stays simple.
             </p>
 
             {/* TODO Diagram */}
@@ -181,6 +182,7 @@ const HomePage = () => (
               <span className={pillCls}>Go core</span>
               <span className={pillCls}>WAL-backed</span>
               <span className={pillCls}>REST + streaming</span>
+              <span className={pillCls}>Built-in /ui dashboard</span>
               <span className={pillCls}>Metrics-ready</span>
             </div>
           </Reveal>
@@ -208,7 +210,7 @@ const HomePage = () => (
                 {`docker run --rm \\
 -p 8080:8080 \\
 -v driftq-data:/data \\
-ghcr.io/driftq-org/driftq-core:latest`}
+ghcr.io/driftq-org/driftq-core:1.3.0`}
                   </pre>
                 </div>
 
@@ -243,7 +245,7 @@ driftqctl topics peek --topic demo --group g1`}
               </div>
 
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                <div className="text-xs text-white/50">This is the happy path. Retries, DLQ, and leases are built-in.</div>
+                <div className="text-xs text-white/50">This is the happy path. Open `http://localhost:8080/ui/` for the embedded dashboard.</div>
                 <Link
                   href="/docs/quickstart"
                   className="text-sm font-semibold text-emerald-200 hover:text-emerald-100 underline underline-offset-4 decoration-transparent hover:decoration-emerald-200/60"
@@ -251,6 +253,56 @@ driftqctl topics peek --topic demo --group g1`}
                   See the full guide →
                 </Link>
               </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+
+    {/* DASHBOARD */}
+    <section className="relative">
+      <div className="mx-auto w-full max-w-[90rem] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
+          <Reveal className="lg:col-span-3">
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              Embedded dashboard, same binary
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-white/70">
+              DriftQ-Core ships a built-in dashboard under <code>/ui/</code>. No separate service, no extra deploy,
+              and no detached admin app to keep in sync.
+            </p>
+
+            <ul className="mt-6 space-y-3 text-sm text-white/70">
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Served by the same <code>driftqd</code> process as the API</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Included in the Docker image and local Docker flow</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Covers overview, topics, producers, consumers, dead letters, and workflows</li>
+            </ul>
+
+            <p className="mt-6 text-sm text-white/50">
+              Run DriftQ, then open <code>http://localhost:8080/ui/</code>.
+            </p>
+          </Reveal>
+
+          <Reveal delayMs={110} className="lg:col-span-9">
+            <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07101f] shadow-soft">
+              <div className="flex items-center justify-between border-b border-white/10 bg-black/20 px-4 py-3">
+                <div>
+                  <div className="text-sm font-semibold text-white">Built-in dashboard preview</div>
+                  <div className="mt-1 text-xs text-white/50">Imported from the current DriftQ-Core repo UI assets</div>
+                </div>
+                <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-emerald-200">
+                  /ui/
+                </div>
+              </div>
+
+              <Image
+                src="/images/ui-dashboard.png"
+                alt="DriftQ embedded dashboard UI showing overview metrics, topics, and live events"
+                width={1463}
+                height={753}
+                className="h-auto w-full"
+                priority
+              />
             </div>
           </Reveal>
         </div>
