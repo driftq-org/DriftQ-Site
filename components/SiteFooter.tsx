@@ -22,6 +22,7 @@ const SiteFooter = () => (
         </div>
 
         <div className="flex items-center gap-5 text-sm">
+          <Link href="/blog" className={linkCls}>Blog</Link>
           <Link href="/docs" className={linkCls}>Docs</Link>
           <Link href="/docs/observability/metrics" className={linkCls}>Metrics</Link>
           <Link href="/docs/roadmap" className={linkCls}>Roadmap</Link>

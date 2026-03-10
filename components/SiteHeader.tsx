@@ -34,6 +34,9 @@ const SiteHeader = () => {
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex">
+            <Link href="/blog" className={linkCls}>
+              Blog
+            </Link>
             <Link href="/docs" className={linkCls}>
               Docs
             </Link>
@@ -75,6 +78,14 @@ const SiteHeader = () => {
           mobileOpen && (
             <div className="border-t border-white/10 py-3 lg:hidden">
               <div className="flex flex-col gap-2">
+                <Link
+                  href="/blog"
+                  className={linkCls + " w-full"}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Blog
+                </Link>
+
                 <Link
                   href="/docs"
                   className={linkCls + " w-full"}
