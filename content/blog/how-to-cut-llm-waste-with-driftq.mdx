@@ -1,0 +1,267 @@
+---
+title: How to Cut LLM Waste with DriftQ
+description: Why a lot of LLM cost waste comes from workflow reruns, retries, and missing replay rather than raw model pricing.
+date: 2026-03-09
+---
+
+I have been part of teams where we tried to cut LLM costs the obvious ways: using a cheaper model, trimming prompts, capping output tokens, adding caching, maybe routing smaller tasks to a cheaper tier. All of that helps. But a lot of avoidable spend in production isn't really about model pricing. It's workflow waste. Not the kind you notice immediately, either. The sneaky kind:
+
+1. Sometimes a workflow fails near the end, so the whole thing has to rerun.
+2. A flaky provider causes retries that keep redoing the same paid work.
+3. A batch job pushes past safe concurrency and starts slamming the endpoint.
+4. A "self-healing" agent loop keeps spending in the background until somebody notices.
+
+That wasted compute adds up fast. A lot of the time, you are not paying because the model is inherently too expensive. You are paying because your system keeps buying the same work over and over again. That is the layer DriftQ is meant to help with.
+
+**DriftQ-Core** is an open-source Go project that gives you a durable broker plus replayable workflow runtime foundations in one package. If something fails late, you do not have to restart the whole workflow. If only one downstream step changed, you can replay from that step. If a dependency is flaky, retries are bounded. If concurrency goes sideways, there are controls for that too. DriftQ does not make tokens cheaper.
+
+What it can do is reduce avoidable spend caused by reruns, retries, and repeated execution of unchanged downstream work when prior outputs can be safely reused.
+
+If you are running anything more complex than a single prompt-response call, agents, multi-step chains, batch jobs, RAG pipelines, or long-running workflows, that distinction matters.
+
+## The expensive part usually is not the model. It is the rerun.
+
+Let's use a concrete example. Assume an example model priced at **$1.75 per 1M input tokens** and **$14.00 per 1M output tokens**. Now imagine a daily AI news workflow with six LLM steps:
+
+1. Summarize article 1
+2. Summarize article 2
+3. Summarize article 3
+4. Summarize article 4
+5. Summarize article 5
+6. Write a final report from all five summaries
+
+Each summary step uses about **5,000 input tokens** and returns **800 output tokens**.
+
+Per summary step:
+
+- Input cost: `5,000 / 1,000,000 x $1.75 = $0.00875`
+- Output cost: `800 / 1,000,000 x $14.00 = $0.01120`
+- Total per summary: **$0.01995**
+
+Five summaries cost about **$0.09975**. Now the final report step uses **6,000 input tokens** and returns **2,000 output tokens**:
+
+- Input cost: `6,000 / 1,000,000 x $1.75 = $0.01050`
+- Output cost: `2,000 / 1,000,000 x $14.00 = $0.02800`
+- Final step total: **$0.03850**
+
+So one clean run costs:
+
+**$0.09975 + $0.03850 = $0.13825**
+
+That sounds cheap. And that is exactly why this kind of waste slips by people.
+
+## Without replay
+
+Let's say the final report is close, but not right. So you tweak the final prompt 10 times. In a naive workflow system, every tweak reruns all six steps. That means:
+
+- 10 reruns x **$0.13825** = **$1.38250**
+- plus the original run = **$1.52075**
+
+Nothing changed in the first five steps. You still paid for them 11 times.
+
+## With replay
+
+After the first run, DriftQ can keep the run/event history plus intermediate outputs from earlier steps.
+
+So if all you changed was the final synthesis prompt, and the upstream outputs are still valid, you replay from the final step instead of replaying the whole workflow.
+
+That means:
+
+- 10 replays x **$0.03850** = **$0.38500**
+- plus the original run = **$0.52325**
+
+That is about **66% cheaper** for the exact same workflow and the exact same model. The model did not get cheaper. The workflow just stopped buying the same intermediate work over and over again.
+
+## Why this gets ugly in the real world
+
+The example above is small on purpose. In real systems, the waste is usually worse. Think about the shape of a typical AI pipeline:
+
+- ingest
+- chunk
+- extract
+- summarize
+- classify
+- synthesize
+- write results somewhere
+
+Now imagine the last step fails because of a formatting bug, a provider hiccup, a timeout, or a downstream API issue. In a lot of systems, the recovery plan is basically one thing:
+
+**Run it all again.**
+
+That means paying again for every upstream LLM call even though nothing new was learned. And once you multiply that by:
+
+- dozens of workflows
+- hundreds of runs per day
+- repeated prompt iteration
+- flaky external dependencies
+- weak retry discipline
+
+the waste compounds fast. That is why replay from the failure point is not just a debugging convenience in AI systems. It changes the economics of failure.
+
+## What DriftQ actually gives you
+
+DriftQ is not trying to be magical. It gives you a set of practical primitives.
+
+### On the broker side
+
+- retries with backoff
+- dead-letter queue routing
+- idempotency keys
+- consumer leases
+- backpressure and max-inflight controls
+- WAL-backed durability
+
+### On the workflow side
+
+- an append-only run/event log
+- time-travel replay
+- artifact storage and reuse
+- budget controls for tokens, dollars, attempts, and wall-clock time
+- inspectable timelines for debugging
+
+That combination matters because LLM cost problems usually do not come from one mistake. They come from a chain reaction:
+
+- retry logic is sloppy
+- replay is missing
+- concurrency is too loose
+- debugging means rerunning everything
+- budgets exist only in somebody's head
+
+DriftQ gives you concrete controls for those failure modes.
+
+## Try it yourself
+
+If you want to see what the repo actually offers today, this is the fastest way to do it.
+
+Important: the built-in demo in this repo is a minimal two-step workflow with nodes `A -> B`. It proves replay, timelines, and artifact reuse, but it is not the same thing as the six-step AI-news example above.
+
+### Run DriftQ-Core
+
+```bash
+docker run --rm -p 8080:8080 -v driftq_data:/data ghcr.io/driftq-org/driftq-core:1.3.0
+```
+
+### Confirm the server is up
+
+```bash
+curl http://127.0.0.1:8080/v1/healthz
+```
+
+### Build the CLI
+
+```bash
+go build -o driftqctl ./cmd/driftqctl
+```
+
+### Run the demo workflow
+
+```bash
+./driftqctl --base-url http://127.0.0.1:8080 runs demo
+```
+
+Copy the `run_id` from that command's output.
+
+### Check run status
+
+```bash
+./driftqctl --base-url http://127.0.0.1:8080 runs status --run-id <RUN_ID>
+```
+
+### Inspect the timeline
+
+```bash
+./driftqctl --base-url http://127.0.0.1:8080 runs timeline --run-id <RUN_ID>
+```
+
+### Replay from the downstream demo step
+
+```bash
+./driftqctl --base-url http://127.0.0.1:8080 runs replay --run-id <RUN_ID> --from-step B --mode time-travel
+```
+
+### View stored artifacts
+
+```bash
+./driftqctl --base-url http://127.0.0.1:8080 runs artifacts --run-id <RUN_ID>
+```
+
+That sequence is the point. In the built-in demo, replaying from `B` lets you re-drive the downstream step without replaying `A`. In a real AI workflow, the same idea applies to whatever your actual downstream node is called: reuse the outputs you already paid for and only re-execute the part that actually changed.
+
+## Replay is the headline, but it is not the only savings
+
+Replay is the easiest benefit to explain, but it is not the only place the bill goes down.
+
+### 1. Retry storms stop turning outages into invoices
+
+When a dependency starts failing, bad retry logic can get expensive very quickly.
+
+A lot of systems basically do this:
+
+- fail
+- retry immediately
+- fail again
+- retry harder
+- repeat until everybody is sad
+
+DriftQ gives you bounded attempts, backoff, and DLQ routing. So instead of "keep burning money until the provider recovers," you get "fail sanely, preserve state, and quarantine the bad work."
+
+### 2. Concurrency mistakes stop multiplying damage
+
+One of the fastest ways to waste money is to fan out too aggressively, hit rate limits, and then combine successful requests, failed requests, and retries into one giant mess.
+
+DriftQ's backpressure and max-inflight controls help stop overload from turning into paid chaos.
+
+### 3. Runaway agents get budget fences
+
+If you have ever had an agent loop longer than expected, you know how ugly this can get.
+
+DriftQ includes budget controls for:
+
+- max attempts
+- token budgets
+- dollar budgets
+- wall-clock time
+
+So when something goes off the rails, the system can stop itself before your monthly bill makes the decision for you.
+
+## The honest caveats
+
+DriftQ is not a magic trick. It will **not**:
+
+- shorten your prompts for you
+- improve bad prompts automatically
+- make a weak model smarter
+- turn a bad agent design into a good one
+- replace careful application design
+
+And it is also **not** pretending to be Kafka at massive distributed scale. What it does is narrower, and for a lot of teams, more useful:
+
+- durable execution
+- replay
+- artifact reuse
+- disciplined retries
+- budget controls
+
+That means fewer avoidable reruns, less accidental spend, and much better visibility into where your AI workflow is actually wasting money.
+
+## Who should care about this right now
+
+If any of these sound familiar, this is probably worth a look:
+
+- "Why did this workflow restart from step 1 again?"
+- "Why are we calling the model when nothing changed?"
+- "Why did the batch worker hammer the provider like that?"
+- "Why did this agent keep spending money all night?"
+- "Why does debugging this workflow cost money every single time?"
+
+That is exactly the class of problem DriftQ is built for.
+
+It is one Go binary with file-backed durability. No extra fleet, no giant platform tax, no stack of dependencies just to get reliable workflows, replay, retries, and control.
+
+For small teams, startups, and solo builders building AI systems, that tradeoff makes a lot of sense.
+
+## Final thought
+
+I think a lot of teams are trying to cut LLM costs at the wrong layer. Yes, model pricing matters. But if your workflow keeps rerunning expensive work, handling retries badly, or letting agents wander without guardrails, you are going to burn money no matter how much you trim prompts. **DriftQ** goes after that waste layer, and in a lot of real production systems, that's where the biggest savings are.
+
+**Repo:** [github.com/driftq-org/DriftQ-Core](https://github.com/driftq-org/DriftQ-Core)
