@@ -14,6 +14,7 @@ type BlogFrontmatter = {
   title?: string;
   description?: string;
   date?: string;
+  author?: string;
 };
 
 const formatDate = (value?: string) => {
@@ -67,13 +68,9 @@ const BlogPostPage = async ({ params }: { params: { slug: string } }) => {
                 ← Back to blog
               </Link>
 
-              <div className="mt-8 text-sm font-semibold uppercase tracking-[0.22em] text-emerald-200">
-                Blog
-              </div>
-
               {
                 frontmatter.title ? (
-                  <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
+                  <h1 className="mt-8 max-w-4xl text-[1.8rem] font-black tracking-tight text-white sm:text-[2.25rem] lg:text-[2.45rem]">
                     {frontmatter.title}
                   </h1>
                 ) : null
@@ -84,6 +81,14 @@ const BlogPostPage = async ({ params }: { params: { slug: string } }) => {
                   <p className="mt-5 max-w-3xl text-xl leading-9 text-white/68">
                     {frontmatter.description}
                   </p>
+                ) : null
+              }
+
+              {
+                frontmatter.author ? (
+                  <div className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200/80">
+                    By {frontmatter.author}
+                  </div>
                 ) : null
               }
 

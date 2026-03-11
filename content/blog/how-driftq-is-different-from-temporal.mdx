@@ -1,0 +1,95 @@
+---
+title: No, DriftQ Is Not Trying to Be Temporal
+description: Where DriftQ fits relative to Temporal, and why single-binary durability plus replayable AI workflows solve a different problem.
+date: 2026-03-11
+author: Behnam Amiri
+---
+
+I get this question a lot. Somebody sees DriftQ-Core for the first time, reads "durable broker" and "replayable workflows," and the first thing they ask is: "so how is this different from Temporal?"
+
+Totally fair question. Here's the honest answer.
+
+## Temporal is incredible. Use it if you need it.
+
+I'm not going to sit here and pretend DriftQ is some kind of competitor to Temporal. Temporal has been worked on for over a decade. It grew out of Uber's Cadence project. Thousands of companies run it in production. Stripe, Netflix, Datadog, real stuff at real scale. The team behind it has basically been thinking about durable execution longer than most of us have been thinking about distributed systems at all.
+
+If you need a full orchestration platform with deterministic workflow replay, multi-service scaling, rich message passing (signals, queries, updates), official SDKs in seven languages, namespace-based multi-tenancy, and a managed cloud option, that's Temporal. Go use it. Seriously.
+
+DriftQ is not that. And it's not trying to be.
+
+## So what is DriftQ actually trying to do?
+
+DriftQ started because I kept running into the same problem with AI and LLM pipelines. You've got these multi-step workflows, ingest, chunk, extract, summarize, classify, synthesize, and when something breaks near the end, the recovery plan in most setups is basically: run the whole thing again.
+
+That's annoying in a normal backend. In AI pipelines, it's expensive. Every rerun means buying the same tokens you already paid for. And when you're iterating on prompts and the only thing that changed is the last step, rerunning five upstream LLM calls that haven't changed is just throwing money away.
+
+I wanted something that would give me the reliability basics, retries with backoff, dead-letter queue routing, idempotency, lease-based consumption, without asking me to deploy a cluster. And I wanted replay from a specific step so I could stop paying for work I'd already done.
+
+That's DriftQ. One binary. One process. No external dependencies. WAL-backed durability. A built-in dashboard. You can run it on a $5/month VPS.
+
+## The actual differences, no fluff
+
+Here's how I think about it.
+
+Temporal is a **durable execution platform**. You adopt its programming model. You write deterministic workflow code, separate your side effects into activities, deploy a multi-service cluster with a persistence database, and Temporal's event-sourced history drives everything forward. That's powerful. But it's a commitment, you're buying into an architecture.
+
+DriftQ is a **reliability layer you drop in**. The stable v1 surface is a durable message broker: topics, consumer groups, streaming consumption over NDJSON, ack/nack with ownership, lease-based redelivery, retry policies carried with the message, strict DLQ routing, and consume-scope idempotency keys managed by the broker. The v2 layer adds replayable workflow foundations on top, an append-only run/event log, time-travel replay, and step-level artifact reuse.
+
+If Temporal is "workflow engine first," DriftQ is "reliability plumbing first."
+
+If Temporal is a durable distributed async call stack for business logic, DriftQ is a durable work-stream broker you can run as one process with retries, DLQ, and idempotency built in.
+
+## Replay means something different when tokens cost money
+
+This is the part that matters most for the AI and agent use case.
+
+In Temporal, replay is about correctness. The event history lets Temporal recreate workflow state after a crash so your code can keep going. That's essential for long-running business processes.
+
+In DriftQ, replay is also about cost. If you have a six-step LLM pipeline and you're tweaking the final synthesis prompt, you don't want to rerun the five upstream summarization calls that haven't changed. Those calls cost real money: input tokens, output tokens, and per-call API fees.
+
+With DriftQ's v2 replay, you can re-drive from the step that actually changed and reuse the intermediate outputs from earlier steps. In a simple example I walked through in a previous post, that's roughly 66% cheaper for the exact same workflow on the exact same model. The model didn't get cheaper. The workflow just stopped buying the same intermediate work over and over.
+
+At scale, dozens of workflows, hundreds of runs per day, prompt iteration, flaky providers, retry storms, that waste compounds fast.
+
+## What DriftQ is not
+
+I try to be upfront about this in the docs, and I'll say it here too.
+
+DriftQ-Core is not a distributed system. Not yet. It's a single process with file-based durability. If you need multi-node replication or horizontal scaling today, use Kafka and Temporal. I literally say that in the README.
+
+The v2 replayable workflow runtime is real and it works, but it's evolving. I call it "foundations" because that's what it is. The stable surface today is the v1 broker.
+
+The TypeScript SDK is stubbed. The Go and Python SDKs work for the v1 broker API. Governance, RBAC, and tenant isolation are on the roadmap, not shipped.
+
+DriftQ Cloud doesn't exist yet. It's planned.
+
+I'm one developer. Temporal has a company behind it with years of production hardening. That's just the reality.
+
+## When to pick which
+
+**Pick Temporal when:**
+
+- You need a mature, battle-tested workflow orchestration platform.
+- You need multi-service scaling for millions of concurrent workflows.
+- You need official SDKs across many languages with full support.
+- You need well-defined security, multi-tenancy, and a managed cloud option.
+- You're building long-running stateful business processes where correctness under partial failure is the whole point.
+
+**Pick DriftQ when:**
+
+- You want a single-binary deployment with no external dependencies for durable work delivery.
+- Your core need is safe stream consumption, leases, ack/nack, bounded retries, DLQ, idempotency, not a full workflow orchestration platform.
+- You're building AI or agent pipelines and you care about not re-paying for upstream work when only a downstream step changed.
+- You want step-level replay and time-travel debugging as a first-class thing, and you're okay with that being described as evolving v2 foundations.
+- Simplicity matters more to you than multi-node HA right now.
+
+## The short version
+
+Temporal is the grown-up in the room. If you need what it offers, nothing I'm building replaces that.
+
+DriftQ is for the stage before you need Temporal. It's for small teams that want real durability guarantees without the operational tax of distributed infrastructure. It's for AI workloads where re-execution has a dollar cost and replay from a specific step actually saves you money.
+
+If you outgrow it, that's fine. That's the plan.
+
+
+**Repo:** [github.com/driftq-org/DriftQ-Core](https://github.com/driftq-org/DriftQ-Core)
