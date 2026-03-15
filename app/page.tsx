@@ -103,7 +103,7 @@ const HomePage = () => (
               • Durable broker + governed runtime
             </div>
 
-            <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl lg:leading-[1.02]">
+            <h1 className="text-2xl font-black tracking-tight text-white sm:text-4xl lg:text-[2.9rem] lg:leading-[1.04]">
               A <span className="bg-gradient-to-r from-emerald-200 via-emerald-100 to-fuchsia-200 bg-clip-text text-transparent">durable broker</span> and replayable AI runtime for governed agent orchestration.
             </h1>
 
