@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 
-// TODO move these to shared file
 const containerCls = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
 const pillCls = "rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70";
 const blockCodeCls = [
@@ -15,31 +14,31 @@ const blockCodeCls = [
 const HomeTabs = () => (
   <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur sm:p-7">
     <div className="flex flex-wrap gap-2">
-      <div className={pillCls}>Streaming consume</div>
-      <div className={pillCls}>Retries + DLQ</div>
-      <div className={pillCls}>Idempotency</div>
+      <div className={pillCls}>Replayable runtime</div>
+      <div className={pillCls}>Guardrails + governance</div>
+      <div className={pillCls}>Secure tool calls</div>
       <div className={pillCls}>Observability</div>
     </div>
 
     <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
       <div>
-        <div className="text-sm font-semibold text-white">Streaming consume that feels reliable</div>
+        <div className="text-sm font-semibold text-white">Workflow execution that stays inspectable</div>
         <p className="mt-2 text-sm leading-6 text-white/70">
-          Lease-based streaming consumption so you can safely retry, nack, and recover without writing a distributed
-          systems thesis.
+          DriftQ keeps runs replayable and governed, so you can pause for humans, inspect lineage, branch a replay,
+          or stage risky side effects without rebuilding runtime plumbing yourself.
         </p>
 
         <div className="mt-4 space-y-3">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-white/50">Leases</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-white/50">Replay + lineage</div>
             <p className="mt-2 text-sm leading-6 text-white/70">
-              Messages are owned temporarily. If a consumer dies, ownership expires and work gets redelivered.
+              Re-drive from the step that changed, compare alternate branches, and inspect what changed across runs.
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-white/50">Ack / Nack</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-white/50">Guardrails</div>
             <p className="mt-2 text-sm leading-6 text-white/70">
-              Explicit success/failure signals with ownership checks. No “at-least-once” surprises.
+              Policy, risk scoring, HITL approvals, tenant boundaries, and secure tool execution are first-class.
             </p>
           </div>
         </div>
@@ -48,14 +47,14 @@ const HomeTabs = () => (
       <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
         <div className="flex items-center justify-between gap-3">
           <div className={pillCls}>Observe in real time</div>
-          <div className={pillCls}>prometheus-ready</div>
+          <div className={pillCls}>OTel + metrics</div>
         </div>
 
         <div className="mt-4 space-y-3">
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between text-xs text-white/60">
-              <span>consumer_lag</span>
-              <span>group=g1 topic=demo</span>
+              <span>workflow_runs_total</span>
+              <span>status=completed tenant=acme</span>
             </div>
             <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
               <div className="h-full w-[68%] rounded-full bg-emerald-300" />
@@ -64,8 +63,8 @@ const HomeTabs = () => (
 
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between text-xs text-white/60">
-              <span>inflight_messages</span>
-              <span>group=g1 topic=demo</span>
+              <span>human_tasks_waiting</span>
+              <span>queue=review</span>
             </div>
             <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
               <div className="h-full w-[32%] rounded-full bg-fuchsia-300" />
@@ -74,8 +73,8 @@ const HomeTabs = () => (
 
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <div className="flex items-center justify-between text-xs text-white/60">
-              <span>dlq_messages_total</span>
-              <span>topic=demo</span>
+              <span>tool_call_duration_ms</span>
+              <span>tool=send_email route=primary</span>
             </div>
             <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
               <div className="h-full w-[12%] rounded-full bg-amber-300" />
@@ -84,7 +83,7 @@ const HomeTabs = () => (
         </div>
 
         <p className="mt-4 text-xs text-white/50">
-          The defaults are boring on purpose. You can wire alerts, dashboards, and SLOs without custom glue.
+          Core telemetry is OpenTelemetry-native, so traces and metrics can flow into the rest of your stack.
         </p>
       </div>
     </div>
@@ -93,7 +92,6 @@ const HomeTabs = () => (
 
 const HomePage = () => (
   <main>
-    {/* HERO */}
     <section className="relative overflow-hidden">
       <div className={`${containerCls} pt-14 pb-16 sm:pt-20 sm:pb-20`}>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
@@ -102,70 +100,17 @@ const HomePage = () => (
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
               Open-source • Developer-first •
               <span className="beta-badge">BETA</span>
-              • Built for reliability
+              • Durable broker + governed runtime
             </div>
 
             <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl">
-              The <span className="bg-gradient-to-r from-emerald-200 via-emerald-100 to-fuchsia-200 bg-clip-text text-transparent">AI-native</span> backbone for reliable agent workflows.
+              A <span className="bg-gradient-to-r from-emerald-200 via-emerald-100 to-fuchsia-200 bg-clip-text text-transparent">durable broker</span> and replayable AI runtime for governed agent orchestration.
             </h1>
 
             <p className="max-w-xl text-lg leading-relaxed text-white/70">
-              DriftQ turns retry hell into a reliable, observable system with durable topics, idempotency, leases, DLQ,
-              streaming consumption, and a built-in dashboard UI so your agent workflow code stays simple.
+              DriftQ combines durable messaging with replayable workflows, policy and risk checks, human-in-the-loop
+              approvals, secure tool execution, agent memory, and production-ready observability in one Go core.
             </p>
-
-            {/* TODO Diagram */}
-            {/* <div className="flex justify-center py-10">
-              <svg width="1020" height="400" viewBox="0 0 1020 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-                <rect x="30" y="110" width="150" height="82" rx="18" fill="#1F2937" stroke="#22C55E" stroke-width="5"/>
-                <text x="105" y="155" text-anchor="middle" fill="#F1F5F9" font-family="system-ui, sans-serif" font-size="20" font-weight="700">AI Agent</text>
-
-
-                <path d="M190 151 L265 151" stroke="#22C55E" stroke-width="5.5" marker-end="url(#arrow)"/>
-
-
-                <rect x="275" y="110" width="120" height="82" rx="18" fill="#1F2937" stroke="#22C55E" stroke-width="5"/>
-                <text x="335" y="155" text-anchor="middle" fill="#F1F5F9" font-family="system-ui, sans-serif" font-size="19" font-weight="600">Produce</text>
-
-                <path d="M405 151 L475 151" stroke="#22C55E" stroke-width="5.5" marker-end="url(#arrow)"/>
-
-                <rect x="485" y="65" width="240" height="170" rx="22" fill="#111827" stroke="#22C55E" stroke-width="5.5"/>
-                <text x="605" y="120" text-anchor="middle" fill="#F1F5F9" font-family="system-ui, sans-serif" font-size="26" font-weight="700">DriftQ</text>
-                <text x="605" y="152" text-anchor="middle" fill="#86EFAC" font-family="system-ui, sans-serif" font-size="16" font-weight="500">Durable Topic</text>
-
-
-                <rect x="500" y="255" width="95" height="50" rx="12" fill="#1F2937" stroke="#22C55E" stroke-width="3"/>
-                <text x="547" y="285" text-anchor="middle" fill="#F1F5F9" font-size="14" font-weight="500">Idempotency</text>
-
-                <rect x="610" y="255" width="95" height="50" rx="12" fill="#1F2937" stroke="#22C55E" stroke-width="3"/>
-                <text x="657" y="285" text-anchor="middle" fill="#F1F5F9" font-size="14" font-weight="500">Leases</text>
-
-                <rect x="720" y="255" width="95" height="50" rx="12" fill="#1F2937" stroke="#22C55E" stroke-width="3"/>
-                <text x="767" y="285" text-anchor="middle" fill="#F1F5F9" font-size="14" font-weight="500">DLQ</text>
-
-                <rect x="830" y="255" width="95" height="50" rx="12" fill="#1F2937" stroke="#22C55E" stroke-width="3"/>
-                <text x="877" y="285" text-anchor="middle" fill="#F1F5F9" font-size="14" font-weight="500">Retries</text>
-
-
-                <path d="M735 151 L805 151" stroke="#22C55E" stroke-width="5.5" marker-end="url(#arrow)"/>
-
-
-                <rect x="815" y="110" width="150" height="82" rx="18" fill="#1F2937" stroke="#22C55E" stroke-width="5"/>
-                <text x="890" y="155" text-anchor="middle" fill="#F1F5F9" font-family="system-ui, sans-serif" font-size="20" font-weight="700">Consume</text>
-
-
-                <path d="M880 210 Q 720 340 530 210" fill="none" stroke="#22C55E" stroke-width="4.5" stroke-dasharray="9 6"/>
-                <text x="640" y="325" fill="#86EFAC" font-family="system-ui, sans-serif" font-size="15" font-weight="500">Retry / Replay</text>
-
-
-                <defs>
-                  <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto">
-                    <path d="M2 2 L12 7 L2 12" fill="#22C55E"/>
-                  </marker>
-                </defs>
-              </svg>
-            </div> */}
 
             <div className="flex flex-wrap items-center gap-3">
               <Button href="docs/run-locally" variant="primary">Run Locally</Button>
@@ -179,11 +124,11 @@ const HomePage = () => (
             </div>
 
             <div className="flex max-w-full flex-wrap gap-2 pt-2">
-              <span className={pillCls}>Go core</span>
-              <span className={pillCls}>WAL-backed</span>
-              <span className={pillCls}>REST + streaming</span>
-              <span className={pillCls}>Built-in /ui dashboard</span>
-              <span className={pillCls}>Metrics-ready</span>
+              <span className={pillCls}>Replay + forensics</span>
+              <span className={pillCls}>Policy + HITL</span>
+              <span className={pillCls}>Secure tool gateway</span>
+              <span className={pillCls}>OTel + metrics</span>
+              <span className={pillCls}>Multi-agent runtime</span>
             </div>
           </Reveal>
 
@@ -192,7 +137,7 @@ const HomePage = () => (
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <div className="text-sm font-semibold text-white">Quickstart</div>
-                  <div className="mt-1 text-sm text-white/70">Run, create a topic, produce, and stream-consume.</div>
+                  <div className="mt-1 text-sm text-white/70">Run the server, verify the broker, then jump into the runtime docs.</div>
                 </div>
                 <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
                   driftqctl
@@ -207,13 +152,12 @@ const HomePage = () => (
                   </div>
 
                   <pre className={`${blockCodeCls} mt-3 whitespace-pre`}>
-                {`docker run --rm \\
+{`docker run --rm \\
 -p 8080:8080 \\
 -v driftq-data:/data \\
 ghcr.io/driftq-org/driftq-core:1.3.0`}
                   </pre>
                 </div>
-
 
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
                   <div className="flex items-center justify-between">
@@ -223,34 +167,33 @@ ghcr.io/driftq-org/driftq-core:1.3.0`}
                   <p className={`${blockCodeCls} mt-3`}>{`driftqctl topics create --name demo --partitions 1`}</p>
                 </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-            <div className="flex items-center justify-between">
-              <div className="text-xs font-semibold uppercase tracking-wide text-white/50">
-                3) Produce + consume
-              </div>
-              <div className="text-xs text-white/50">streaming</div>
-            </div>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                      3) Produce + consume
+                    </div>
+                    <div className="text-xs text-white/50">streaming</div>
+                  </div>
 
-            <pre className={`${blockCodeCls} mt-3 whitespace-pre`}>
-              {`# produce
+                  <pre className={`${blockCodeCls} mt-3 whitespace-pre`}>
+{`# produce
 curl -X POST http://localhost:8080/v1/produce \\
 -H "content-type: application/json" \\
 -d '{"topic":"demo","value":"hello"}'
 
 # consume (stream)
 driftqctl topics peek --topic demo --group g1`}
-            </pre>
-          </div>
-
+                  </pre>
+                </div>
               </div>
 
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                <div className="text-xs text-white/50">This is the happy path. Open `http://localhost:8080/ui/` for the embedded dashboard.</div>
+                <div className="text-xs text-white/50">The same server also exposes replay, policy, eval, agent-state, and runtime debug routes.</div>
                 <Link
                   href="/docs/quickstart"
                   className="text-sm font-semibold text-emerald-200 hover:text-emerald-100 underline underline-offset-4 decoration-transparent hover:decoration-emerald-200/60"
                 >
-                  See the full guide →
+                  See the full guide ?
                 </Link>
               </div>
             </div>
@@ -259,7 +202,6 @@ driftqctl topics peek --topic demo --group g1`}
       </div>
     </section>
 
-    {/* DASHBOARD */}
     <section className="relative">
       <div className="mx-auto w-full max-w-[90rem] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
@@ -275,7 +217,7 @@ driftqctl topics peek --topic demo --group g1`}
             <ul className="mt-6 space-y-3 text-sm text-white/70">
               <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Served by the same <code>driftqd</code> process as the API</li>
               <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Included in the Docker image and local Docker flow</li>
-              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Covers overview, topics, producers, consumers, dead letters, and workflows</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Covers overview, topics, runs, artifacts, runtime state, and debug surfaces</li>
             </ul>
 
             <p className="mt-6 text-sm text-white/50">
@@ -309,54 +251,53 @@ driftqctl topics peek --topic demo --group g1`}
       </div>
     </section>
 
-    {/* RELIABILITY PRIMITIVES */}
     <section className="relative">
       <div className={`${containerCls} py-16 sm:py-20`}>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
           <Reveal className="lg:col-span-5">
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-              Reliability primitives that don’t leak
+              Runtime primitives that do not leak complexity
             </h2>
             <p className="mt-4 text-base leading-relaxed text-white/70">
-              You shouldn’t have to rebuild “durability + retries + observability” every time you ship a workflow.
-              DriftQ makes the failure modes explicit and the happy path fast.
+              You should not have to rebuild durability, replay, governance, tool safety, and observability every time
+              you ship an AI workflow. DriftQ keeps the hard parts explicit and the happy path fast.
             </p>
 
             <ul className="mt-6 space-y-3 text-sm text-white/70">
-              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Durable topics + WAL</li>
-              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Idempotency keys (first-class)</li>
-              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Leases + streaming consume</li>
-              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Retries + DLQ with reasons</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Durable topics + WAL-backed storage</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Replay, lineage, and what-if branch timelines</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Policy, risk, HITL, and tenant governance</li>
+              <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-300" /> Tool gateway, receipts, and OpenTelemetry-native telemetry</li>
             </ul>
           </Reveal>
 
           <div className="lg:col-span-7">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Reveal delayMs={0} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur">
-                <div className="text-sm font-semibold text-white">Streaming consume</div>
+                <div className="text-sm font-semibold text-white">Replay + forensics</div>
                 <p className="mt-2 text-sm leading-6 text-white/70">
-                  NDJSON streaming endpoint + CLI helpers. Keep consumers simple and stateless.
+                  Time-travel replay, run diffs, workflow diffs, root-cause views, and branching what-if simulations.
                 </p>
               </Reveal>
 
               <Reveal delayMs={70} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur">
-                <div className="text-sm font-semibold text-white">Leases</div>
+                <div className="text-sm font-semibold text-white">Guardrails + HITL</div>
                 <p className="mt-2 text-sm leading-6 text-white/70">
-                  Ownership prevents duplicate work, and expiration guarantees recovery.
+                  RBAC, policy checks, runtime risk scoring, approvals, edits, timeouts, and governed resume flows.
                 </p>
               </Reveal>
 
               <Reveal delayMs={140} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur">
-                <div className="text-sm font-semibold text-white">Retry + DLQ</div>
+                <div className="text-sm font-semibold text-white">Secure tool execution</div>
                 <p className="mt-2 text-sm leading-6 text-white/70">
-                  Bounded retries with reasoned DLQ routing, so “poison messages” stop being a mystery.
+                  Approved tool registry, schema validation, secret redaction, tool-call audit logs, and staged side effects.
                 </p>
               </Reveal>
 
               <Reveal delayMs={210} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-soft backdrop-blur">
                 <div className="text-sm font-semibold text-white">Observability</div>
                 <p className="mt-2 text-sm leading-6 text-white/70">
-                  Inflight, lag, DLQ totals, and backpressure rejection counters out of the box.
+                  OTel traces, runtime metrics, broker telemetry, and traceable run, node, tool, and approval spans.
                 </p>
               </Reveal>
             </div>
@@ -365,25 +306,24 @@ driftqctl topics peek --topic demo --group g1`}
       </div>
     </section>
 
-    {/* FEATURE PANEL */}
     <section className="relative">
       <div className={`${containerCls} py-16 sm:py-20`}>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
           <Reveal className="lg:col-span-5">
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-              Failure is normal. Make it boring.
+              Failure is normal. Make recovery boring.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-white/70">
-              DriftQ is designed for workflows that touch flaky downstreams (LLMs, third-party APIs, webhooks, long
-              running jobs). The system should recover — not your on-call.
+              DriftQ is designed for workflows that touch flaky downstreams: LLMs, tools, third-party APIs, webhooks,
+              and long-running jobs. The system should recover with evidence, not just dump the problem on your on-call.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              <span className={pillCls}>ingestion</span>
-              <span className={pillCls}>webhooks</span>
-              <span className={pillCls}>notifications</span>
-              <span className={pillCls}>pipeline steps</span>
-              <span className={pillCls}>agent tasks</span>
+              <span className={pillCls}>multi-agent tasks</span>
+              <span className={pillCls}>tool calls</span>
+              <span className={pillCls}>approvals</span>
+              <span className={pillCls}>workflow releases</span>
+              <span className={pillCls}>replay branches</span>
             </div>
 
             <p className="mt-6 text-sm text-white/50">
@@ -398,7 +338,6 @@ driftqctl topics peek --topic demo --group g1`}
       </div>
     </section>
 
-    {/* CTA */}
     <section className="relative">
       <div className={`${containerCls} pb-20`}>
         <Reveal>
@@ -406,10 +345,11 @@ driftqctl topics peek --topic demo --group g1`}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-8">
                 <h3 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                  Ship reliable workflows without rebuilding infrastructure.
+                  Ship governed AI workflows without rebuilding your runtime stack.
                 </h3>
                 <p className="mt-3 text-base leading-relaxed text-white/70">
-                  If queue and worker pain is already your reality, DriftQ is worth a serious look. If it’s not… keep things simple until it is.
+                  If you already feel the pain of retries, tool safety, replay, runtime visibility, or human approvals,
+                  DriftQ is worth a serious look. If not, keep things simple until you need the trust layer.
                 </p>
               </div>
 

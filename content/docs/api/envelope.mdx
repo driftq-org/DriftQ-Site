@@ -38,26 +38,25 @@ description: Metadata carried with messages for AI workflows.
     </div>
   </section>
 
-  {/* Future */}
   <section className="space-y-5">
     <h2 className="m-0">Why the envelope is a big deal</h2>
 
     <p className="m-0">
-      The envelope is the “control plane” for the message. It’s also how DriftQ evolves beyond a broker:
-      it becomes the foundation for routing decisions, safety constraints, and workflow control.
+      The envelope is the control plane for the message. It is how DriftQ carries routing hints, retry behavior,
+      idempotency, tenant context, and tracing metadata through the broker and into the replayable runtime.
     </p>
 
     <ul className="space-y-2">
-      <li><strong>Routing:</strong> policy-driven routing / partitions / priority</li>
+      <li><strong>Routing:</strong> policy-driven routing, partitions, priority, and adaptive hints</li>
       <li><strong>Retries:</strong> consistent backoff + termination rules</li>
-      <li><strong>Budgets:</strong> cost caps, rate limits, tenant quotas</li>
-      <li><strong>Tracing:</strong> end-to-end workflow/agent tracing metadata</li>
+      <li><strong>Budgets:</strong> cost caps, rate limits, and tenant quotas</li>
+      <li><strong>Tracing:</strong> end-to-end workflow / agent tracing metadata</li>
+      <li><strong>Governance:</strong> tenant scope, audit context, and safer tool execution decisions</li>
     </ul>
 
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white/90">
       <p className="m-0">
-        <strong>Roadmap note:</strong> DriftQ-Core is the broker repo you can run today. The envelope is what enables DriftQ
-        (the overall project) to grow into a workflow runtime in v2+.
+        <strong>Today:</strong> the envelope already helps bridge broker delivery and runtime control. It is one of the reasons DriftQ-Core can behave like both a durable broker and a governed AI workflow runtime.
       </p>
     </div>
   </section>

@@ -14,7 +14,7 @@ I have been part of teams where we tried to cut LLM costs the obvious ways: usin
 
 That wasted compute adds up fast. A lot of the time, you are not paying because the model is inherently too expensive. You are paying because your system keeps buying the same work over and over again. That is the layer DriftQ is meant to help with.
 
-**DriftQ-Core** is an open-source Go project that gives you a durable broker plus replayable workflow runtime foundations in one package. If something fails late, you do not have to restart the whole workflow. If only one downstream step changed, you can replay from that step. If a dependency is flaky, retries are bounded. If concurrency goes sideways, there are controls for that too. DriftQ does not make tokens cheaper.
+**DriftQ-Core** is an open-source Go project that gives you a durable broker plus replayable workflow runtime in one package. If something fails late, you do not have to restart the whole workflow. If only one downstream step changed, you can replay from that step. If a dependency is flaky, retries are bounded. If concurrency goes sideways, there are controls for that too. DriftQ does not make tokens cheaper.
 
 What it can do is reduce avoidable spend caused by reruns, retries, and repeated execution of unchanged downstream work when prior outputs can be safely reused.
 
@@ -266,3 +266,4 @@ For small teams, startups, and solo builders building AI systems, that tradeoff 
 I think a lot of teams are trying to cut LLM costs at the wrong layer. Yes, model pricing matters. But if your workflow keeps rerunning expensive work, handling retries badly, or letting agents wander without guardrails, you are going to burn money no matter how much you trim prompts. **DriftQ** goes after that waste layer, and in a lot of real production systems, that's where the biggest savings are.
 
 **Repo:** [github.com/driftq-org/DriftQ-Core](https://github.com/driftq-org/DriftQ-Core)
+

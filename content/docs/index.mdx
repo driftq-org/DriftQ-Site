@@ -1,6 +1,6 @@
 ---
 title: DriftQ Docs
-description: Everything you need to run DriftQ-Core locally and understand its semantics.
+description: Everything you need to run DriftQ-Core locally and understand its current runtime semantics.
 ---
 
 <div className="space-y-6">
@@ -9,15 +9,16 @@ description: Everything you need to run DriftQ-Core locally and understand its s
 
   <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-white/90">
     <div className="text-sm text-white/70">
-      DriftQ-Core is a lightweight broker built for <strong>AI workflow reliability</strong>:
+      DriftQ-Core is a <strong>durable broker plus replayable AI workflow runtime</strong> with guardrails,
+      governance, secure tool execution, and multi-agent building blocks:
     </div>
 
     <ul className="mt-4 space-y-2 text-white/85">
-      <li>Streaming consume (NDJSON) with <strong>owner + lease</strong></li>
-      <li><strong>Ack / Nack</strong> with ownership enforcement</li>
-      <li>Retry policy (max attempts + backoff) + strict <strong>DLQ routing</strong></li>
-      <li>Consume-scope <strong>idempotency keys</strong> to prevent duplicate side effects</li>
-      <li>Prometheus metrics (inflight, lag, DLQ totals, producer backpressure)</li>
+      <li>Durable topics, leases, Ack / Nack, retries, DLQ routing, and WAL-backed storage</li>
+      <li>Replayable runs, artifacts, branching replay timelines, and forensic debugging</li>
+      <li>RBAC, policy and risk checks, human-in-the-loop steps, and tenant-aware governance</li>
+      <li>Secure tool gateway, side-effect receipts, agent state, and semantic memory</li>
+      <li>OpenTelemetry-native traces and metrics across broker and runtime paths</li>
     </ul>
   </div>
 
