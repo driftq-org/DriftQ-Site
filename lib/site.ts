@@ -1,8 +1,8 @@
 export const site = {
   name: "DriftQ",
-  tagline: "The AI-native backbone for reliable agent workflows",
-  description: "Build reliable agent workflows with durable topics, streaming consumption, retries, and the built-in DriftQ dashboard UI. Keep your AI code simple.",
-  lastUpdated: "2026-03-11",
+  tagline: "A durable broker and replayable AI runtime for governed agent orchestration",
+  description: "Build governed AI workflows with durable topics, replayable runs, guardrails, secure tool execution, and production-ready observability in one Go core.",
+  lastUpdated: "2026-03-15",
   githubUrl: "https://github.com/driftq-org/DriftQ-Core",
   docsBasePath: "/docs"
 } as const;
